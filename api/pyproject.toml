@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "pdf-extractor"
+version = "0.1.0"
+description = "A simple API to extract text from PDF files"
+authors = ["ngtrdai <ngtrdai@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8.1"
+fastapi = "^0.109.2"
+uvicorn = "^0.27.1"
+pydantic = "^1.10"
+sse-starlette = "^2.0.0"
+alembic = "^1.13.1"
+psycopg2 = "^2.9.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
