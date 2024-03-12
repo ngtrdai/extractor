@@ -1,10 +1,10 @@
+from http.client import HTTPException
+from typing import List
+
 from fastapi import APIRouter, Depends
-
-from app.schemas.ExtractorSchema import CreateExtractor
+from app.schemas.ExtractorSchema import StoreExtractor, ExtractorResponse
 from sqlalchemy.orm import Session
-
 from app.database import get_session
-
 from app.models.Extractor import Extractor
 
 router = APIRouter(
@@ -14,42 +14,96 @@ router = APIRouter(
 )
 
 
+@router.get("")
+async def index(
+        session: Session = Depends(get_session)
+) -> List[ExtractorResponse]:
+    extractors = session.query(Extractor).all()
+
+    return [
+        ExtractorResponse(
+            uuid=extractor.uuid,
+            name=extractor.name,
+            description=extractor.description,
+            prompt=extractor.prompt,
+            schema=extractor.schema
+        )
+        for extractor in extractors
+    ]
+
+
 @router.post("")
 async def store(
-        request: CreateExtractor,
+        request: StoreExtractor,
         session: Session = Depends(get_session)
-) -> dict:
+) -> ExtractorResponse:
     extractor = Extractor(
         name=request.name,
         description=request.description,
         prompt=request.prompt,
-        schema=request.schema
+        schema=request.json_schema
     )
     session.add(extractor)
     session.commit()
 
-    return {
-        "id": extractor.id,
-        "name": extractor.name,
-        "description": extractor.description,
-        "prompt": extractor.prompt,
-        "schema": extractor.schema
-    }
+    return ExtractorResponse(
+        uuid=extractor.uuid,
+        name=extractor.name,
+        description=extractor.description,
+        prompt=extractor.prompt,
+        schema=extractor.schema
+    )
 
 
-@router.get("")
-async def index(
+@router.get("/{uuid}")
+async def show(
+        uuid: str,
         session: Session = Depends(get_session)
-) -> list:
-    extractors = session.query(Extractor).all()
+) -> ExtractorResponse:
+    extractor = session.query(Extractor).filter_by(uuid=uuid).first()
 
-    return [
-        {
-            "uuid": extractor.uuid,
-            "name": extractor.name,
-            "description": extractor.description,
-            "prompt": extractor.prompt,
-            "schema": extractor.schema
-        }
-        for extractor in extractors
-    ]
+    return ExtractorResponse(
+        uuid=extractor.uuid,
+        name=extractor.name,
+        description=extractor.description,
+        prompt=extractor.prompt,
+        schema=extractor.schema
+    )
+
+
+@router.put("/{uuid}")
+async def update(
+        uuid: str,
+        request: StoreExtractor,
+        session: Session = Depends(get_session)
+) -> ExtractorResponse:
+    extractor = session.query(Extractor).filter_by(uuid=uuid).first()
+
+    extractor.name = request.name
+    extractor.description = request.description
+    extractor.prompt = request.prompt
+    extractor.schema = request.json_schema
+
+    session.commit()
+
+    return ExtractorResponse(
+        uuid=extractor.uuid,
+        name=extractor.name,
+        description=extractor.description,
+        prompt=extractor.prompt,
+        schema=extractor.schema
+    )
+
+
+@router.delete("/{uuid}")
+async def delete(
+        uuid: str,
+        session: Session = Depends(get_session)
+) -> None:
+    extractor = session.query(Extractor).filter_by(uuid=uuid).first()
+
+    if not extractor:
+        raise HTTPException("Extractor not found")
+
+    session.delete(extractor)
+    session.commit()
