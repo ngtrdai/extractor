@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.routes import extractors
+from app.routes import extractors, extract
 
 app = FastAPI(
     title="PDF Extractor API",
@@ -15,6 +15,7 @@ async def healthcheck():
 
 
 app.include_router(extractors.router)
+app.include_router(extract.router)
 
 
 if __name__ == "__main__":

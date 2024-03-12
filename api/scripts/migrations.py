@@ -2,8 +2,8 @@
 
 import click
 
-from app.models.BaseModel import Base
-from app.models.Extractor import Extractor
+from app.models.base_model import Base
+from app.models.extractor import Extractor
 from app.database import ENGINE
 
 

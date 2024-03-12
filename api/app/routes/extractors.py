@@ -2,10 +2,10 @@ from http.client import HTTPException
 from typing import List
 
 from fastapi import APIRouter, Depends
-from app.schemas.ExtractorSchema import StoreExtractor, ExtractorResponse
+from app.schemas.extractor_schema import StoreExtractor, ExtractorResponse
 from sqlalchemy.orm import Session
 from app.database import get_session
-from app.models.Extractor import Extractor
+from app.models.extractor import Extractor
 
 router = APIRouter(
     prefix="/extractors",

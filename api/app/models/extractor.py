@@ -1,4 +1,4 @@
-from app.models.BaseModel import TimestampMixin
+from app.models.base_model import TimestampMixin
 from sqlalchemy import Column, String, Text
 from sqlalchemy.dialects.postgresql import JSONB
 

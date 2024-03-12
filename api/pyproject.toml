@@ -16,6 +16,8 @@ psycopg2 = "^2.9.9"
 langchain = "^0.1.11"
 langchain-openai = "^0.0.8"
 jsonschema = "^4.21.1"
+python-multipart = "^0.0.9"
+pdfminer-six = "^20231228"
 
 
 [build-system]

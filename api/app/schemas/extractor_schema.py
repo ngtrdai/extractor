@@ -1,9 +1,7 @@
 from typing import Dict, Any
 from uuid import UUID
-
-from pydantic import BaseModel, Field, validator, ValidationError
-
-from app.validators import validate_json_schema
+from pydantic import BaseModel, Field, validator
+from app.ultils.validators import validate_json_schema
 
 
 class StoreExtractor(BaseModel):
