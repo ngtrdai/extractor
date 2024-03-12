@@ -13,6 +13,8 @@ pydantic = "^1.10"
 sse-starlette = "^2.0.0"
 alembic = "^1.13.1"
 psycopg2 = "^2.9.9"
+langchain = "^0.1.11"
+langchain-openai = "^0.0.8"
 
 
 [build-system]

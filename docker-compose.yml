@@ -4,15 +4,22 @@ name: pdf-extractor
 services:
   api:
     build: ./api
+    environment:
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_HOST: ${POSTGRES_HOST}
+      DB_PORT: ${POSTGRES_PORT}
+      DB_NAME: "pdf_extractor"
     ports:
       - "${API_PORT}:8000"
     depends_on:
       - database
     volumes:
       - ./api:/api
+    networks:
+      - pdf-extractor-network
   database:
     build: ./docker/postgresql
-    hostname: ${POSTGRES_HOST}
     ports:
       - "${POSTGRES_PORT}:5432"
     command: postgres -c 'max_connections=500'
