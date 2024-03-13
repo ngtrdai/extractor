@@ -21,7 +21,7 @@
 const appConfig = useAppConfig();
 
 const ui = {
-	wrapper: `h-[${appConfig.ui.variables.header.height}] flex-shrink-0 flex items-center border-b border-gray-200 dark:border-gray-800 px-4 gap-x-4 min-w-0`,
+	wrapper: `h-[4rem] flex-shrink-0 flex items-center border-b border-gray-200 dark:border-gray-800 px-4 gap-x-4 min-w-0`,
 	container: 'flex items-center justify-between flex-1 gap-x-1.5 min-w-0',
 	left: 'flex items-stretch gap-1.5 min-w-0 flex-1',
 	title: 'flex items-center gap-1.5 font-semibold text-gray-900 dark:text-white min-w-0',

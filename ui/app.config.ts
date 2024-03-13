@@ -14,7 +14,8 @@ export default defineAppConfig({
             }
         },
         icons: {
-            search: 'i-heroicons-magnifying-glass-20-solid'
+            search: 'i-heroicons-magnifying-glass-20-solid',
+            close: 'i-heroicons-x-mark-20-solid'
         },
         themes: {
             button: {

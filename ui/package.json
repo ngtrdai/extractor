@@ -13,10 +13,13 @@
   "dependencies": {
     "@nuxt/ui": "^2.14.2",
     "nuxt": "^3.10.3",
+    "tailwind-merge": "^2.2.1",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "monaco-editor": "^0.47.0",
+    "nuxt-monaco-editor": "^1.2.7",
     "sass": "^1.71.1"
   }
 }

@@ -16,3 +16,10 @@ export interface SidebarLink extends BaseLink {
     defaultOpen?: boolean;
     children?: SidebarLink[];
 }
+
+export interface Extractor {
+    uuid: string;
+    name: string;
+    description: string;
+    created_at: string;
+}

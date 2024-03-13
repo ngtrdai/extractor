@@ -24,10 +24,6 @@ const ui = {
 	}
 }
 
-defineOptions({
-  inheritAttrs: false
-})
-
 const props = defineProps({
 	id: {
 		type: String,
