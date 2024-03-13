@@ -20,6 +20,8 @@ export interface SidebarLink extends BaseLink {
 export interface Extractor {
     uuid: string;
     name: string;
-    description: string;
+    schema?: string;
+    prompt?: string;
+    description?: string;
     created_at: string;
 }

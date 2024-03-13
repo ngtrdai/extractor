@@ -12,8 +12,22 @@
 			</div>
 		</slot>
 	</div>
+	<ClientOnly>
+		<USlideover v-if="collapsible && smallerThanLg"
+		            v-model="isOpen"
+		            :side="side"
+		            appear
+		            class="lg:hidden"
+        >
+			<slot />
+		</USlideover>
+	</ClientOnly>
 </template>
 <script setup>
+import {breakpointsTailwind, useBreakpoints} from "@vueuse/core";
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const smallerThanLg = breakpoints.smaller('lg');
 const ui = {
 	wrapper: 'flex-col items-stretch relative w-full',
 	border: 'border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-gray-800 lg:w-[--width] flex-shrink-0',
@@ -52,6 +66,10 @@ const props = defineProps({
 	className: {
 		type: String,
 		default: undefined
+	},
+	side: {
+		type: String,
+		default: 'left'
 	}
 })
 
@@ -70,8 +88,15 @@ const { el, width, onDrag, isResizing } = props.resizable
 		})
 	: { el: undefined, width: toRef(props.width), onDrag: undefined, isDragging: undefined }
 
+const isOpen = computed({
+	get: () => props.modelValue !== undefined ? props.modelValue : true,
+	set: (value) => props.modelValue !== undefined ? emit('update:modelValue', value) : undefined
+});
+
 defineExpose({
 	width,
 	isResizing
-})
+});
+
+provide('isOpen', isOpen);
 </script>

@@ -38,7 +38,7 @@ const routes = [
 	{
 		id: 'extractors',
 		label: 'Extractors',
-		icon: 'i-heroicons-inbox',
+		icon: 'i-heroicons-cube',
 		to: '/extractors',
 		tooltip: {
 			text: 'Extractors'
