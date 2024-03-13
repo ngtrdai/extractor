@@ -1,5 +1,6 @@
 {
-  "name": "nuxt-app",
+  "name": "pdf-extractor",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,8 +11,12 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/ui": "^2.14.2",
     "nuxt": "^3.10.3",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "sass": "^1.71.1"
   }
 }
