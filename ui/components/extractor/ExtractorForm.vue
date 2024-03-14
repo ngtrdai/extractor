@@ -26,7 +26,12 @@
 	</UForm>
 </template>
 <script setup>
-const emit = defineEmits(['close']);
+import ExtractorService from "~/services/ExtractorService.ts";
+
+const emit = defineEmits([
+	'close',
+	'submitted'
+]);
 
 const schemaDefault = `{
 	"type": "object",
@@ -57,7 +62,7 @@ const formState = reactive({
 	name: props.extractor?.name || '',
 	description: props.extractor?.description || '',
 	prompt: props.extractor?.prompt || '',
-	schema: props.extractor?.schema || schemaDefault
+	schema: props.extractor?.schema ? JSON.stringify(props.extractor.schema, null, 2) : schemaDefault
 })
 const validate = (value) => {
 	const errors = [];
@@ -76,8 +81,19 @@ const validate = (value) => {
 }
 
 async function onSubmit(event) {
-	console.log(event.data)
-	emit('close')
+	const data = {
+		...event.data,
+		schema: JSON.parse(event.data.schema)
+	}
+	
+	if (props.extractor) {
+		emit('close');
+	} else {
+		await new ExtractorService().createExtractor(data).then(() => {
+			emit('close');
+			emit('submitted');
+		});
+	}
 }
 </script>
 <style>

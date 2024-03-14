@@ -15,7 +15,7 @@ useHead({
 	]
 })
 
-const title = 'PDF Extractor'
+const title = 'Extractor'
 const description = 'Extract text from PDF files'
 useSeoMeta({
 	title,

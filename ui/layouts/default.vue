@@ -1,7 +1,7 @@
 <template>
 	<div class="fixed inset-0 flex overflow-hidden">
 		<LayoutPanel :width="250" collapsible :resizable="{ min: 200, max: 350 }">
-			<LayoutNavbar title="PDF Extractor" />
+			<LayoutNavbar title="Extractor" />
 			<LayoutSidebar>
 				<template #header>
 					<LayoutSearchButton />
@@ -42,6 +42,15 @@ const routes = [
 		to: '/extractors',
 		tooltip: {
 			text: 'Extractors'
+		}
+	},
+	{
+		id: 'settings',
+		label: 'Settings',
+		icon: 'i-heroicons-cog',
+		to: '/settings',
+		tooltip: {
+			text: 'Settings'
 		}
 	}
 ]

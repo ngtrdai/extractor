@@ -6,27 +6,36 @@
 					<UButton trailing-icon="i-heroicons-plus" @click="isShowCreateModal = true">New</UButton>
 				</template>
 			</LayoutNavbar>
-			<ExtractorList v-model="selected" :extractors="extractors" />
+			<ExtractorList v-model="selected" :extractors="extractors" v-if="isLoaded" />
+			<template v-else>
+				<div class="flex items-center space-x-4 p-4">
+					<div class="space-y-2">
+						<USkeleton class="h-4 w-[200px]" />
+						<USkeleton class="h-4 w-[150px]" />
+					</div>
+				</div>
+			</template>
 			<BaseModal v-model="isShowCreateModal"
 			           title="New Extractor"
 			           description="Create a new extractor"
 			>
-				<ExtractorForm @close="isShowCreateModal = false" />
+				<ExtractorForm @close="isShowCreateModal = false" @submitted="handleFormSubmitted" />
 			</BaseModal>
 		</LayoutPanel>
 		<LayoutPanel collapsible grow side="right" v-model="isDetailPanelOpen">
 			<template v-if="selected">
 				<LayoutNavbar>
 					<template #left>
-						<UTooltip text="Edit Schema">
+						<UTooltip text="Edit Extractor">
 							<UButton icon="i-heroicons-command-line"
 							         color="gray"
 							         variant="ghost"
 							         @click="isShowEditSchemaModal = true" />
 						</UTooltip>
 						<BaseModal v-model="isShowEditSchemaModal"
-						           title="Edit Schema"
-						           description="Edit the schema of the extractor"
+						           title="Edit Extractor"
+						           description="Edit the extractor"
+	
 						>
 							<ExtractorForm :extractor="selected" @close="isShowEditSchemaModal = false" />
 						</BaseModal>
@@ -37,7 +46,7 @@
 						</UDropdown>
 					</template>
 				</LayoutNavbar>
-				<ExtractorDetail :extractor="selected" :ui="{wrapper: 'p-4'}" />
+				<ExtractorDetail :extractor="selected" />
 			</template>
 			<div v-else class="flex-1 hidden lg:flex items-center justify-center">
 				<UIcon name="i-heroicons-cube-transparent" class="w-32 h-32 text-gray-400 dark:text-gray-500" />
@@ -47,68 +56,27 @@
 </template>
 <script setup>
 import BaseModal from "~/components/common/BaseModal.vue";
+import ExtractorService from "~/services/ExtractorService.ts";
 
+const isLoaded = ref(false);
 const isShowCreateModal = ref(false);
 const isShowEditSchemaModal = ref(false);
 const selected = ref();
-const extractors = [
-	{
-		uuid: '1',
-		name: 'Extractor 1',
-		description: 'This is the first extractor',
-		prompt: 'This is the first extractor',
-		schema: `{
-			"type": "object",
-			"properties": {
-				"firstName": {
-					"type": "string",
-					"description": "The person's first name."
-				},
-				"lastName": {
-					"type": "string",
-					"description": "The person's last name."
-				},
-				"age": {
-					"description": "Age in years which must be equal to or greater than zero.",
-					"type": "integer",
-					"minimum": 0
-				}
-			}
-		}`,
-		created_at: '2021-10-01T00:00:00Z'
-	},
-	{
-		uuid: '2',
-		name: 'Extractor 2',
-		description: 'This is the second extractor',
-		prompt: 'This is the second extractor',
-		schema: `{
-			"type": "object",
-			"properties": {
-				"firstName": {
-					"type": "string",
-					"description": "The person's first name."
-				},
-				"lastName": {
-					"type": "string",
-					"description": "The person's last name."
-				},
-				"age": {
-					"description": "Age in years which must be equal to or greater than zero.",
-					"type": "integer",
-					"minimum": 0
-				}
-			}
-		}`,
-		created_at: '2021-10-02T00:00:00Z'
-	}
-];
+const extractors = ref([]);
+
+onMounted(async () => {
+	extractors.value = await new ExtractorService().getExtractors();
+	isLoaded.value = true;
+})
 
 const detailItems = [
 	[
 		{
 			label: 'Delete',
 			icon: 'i-heroicons-trash',
+			handler: () => {
+				console.log('Delete');
+			}
 		}
 	]
 ]
@@ -119,4 +87,10 @@ const isDetailPanelOpen = computed({
 		if (!value) selected.value = null;
 	}
 })
+
+const handleFormSubmitted = async () => {
+	isLoaded.value = false;
+	extractors.value = await new ExtractorService().getExtractors();
+	isLoaded.value = true;
+}
 </script>

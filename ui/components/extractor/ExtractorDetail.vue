@@ -1,5 +1,5 @@
 <template>
-	<LayoutPanelContent>
+	<LayoutPanelContent :ui="{wrapper: 'p-4'}">
 		<div class="flex justify-between">
 			<div class="flex items-center gap-4">
 				<div class="min-w-0">
@@ -16,11 +16,11 @@
 			</p>
 		</div>
 		<UDivider class="my-5" />
-		<form @submit.prevent>
-			<UTextarea color="gray" required size="xl" :rows="5" :placeholder="`Type your content here...`">
-				<UButton type="submit" color="black" label="Send" icon="i-heroicons-paper-airplane" class="absolute bottom-2.5 right-3.5" />
-			</UTextarea>
-		</form>
+		<div class="flex flex-1">
+			<p class="text-lg"></p>
+		</div>
+		<UDivider class="my-5" />
+		<ExtractorChat />
 	</LayoutPanelContent>
 </template>
 <script setup lang="ts">
@@ -33,4 +33,5 @@ const props = defineProps({
 		default: undefined
 	}
 })
+
 </script>

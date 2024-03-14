@@ -1,11 +1,20 @@
 from fastapi import FastAPI
 
 from app.routes import extractors, extract
+from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI(
-    title="PDF Extractor API",
+    title="Extractor API",
     description="API to extract text from PDF files",
     version="0.1.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 

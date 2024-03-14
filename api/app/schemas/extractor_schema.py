@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Dict, Any
 from uuid import UUID
 from pydantic import BaseModel, Field, validator
@@ -32,4 +33,8 @@ class ExtractorResponse(BaseModel):
         ...,
         description="The schema of the extractor",
         alias="schema"
+    )
+    created_at: datetime = Field(
+        default=None,
+        description="The creation date and time of the extractor"
     )

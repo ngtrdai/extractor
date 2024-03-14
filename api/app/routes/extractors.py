@@ -18,7 +18,7 @@ router = APIRouter(
 async def index(
         session: Session = Depends(get_session)
 ) -> List[ExtractorResponse]:
-    extractors = session.query(Extractor).all()
+    extractors = (session.query(Extractor).order_by(Extractor.created_at.desc()).all())
 
     return [
         ExtractorResponse(
@@ -26,7 +26,8 @@ async def index(
             name=extractor.name,
             description=extractor.description,
             prompt=extractor.prompt,
-            schema=extractor.schema
+            schema=extractor.schema,
+            created_at=extractor.created_at
         )
         for extractor in extractors
     ]
