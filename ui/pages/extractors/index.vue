@@ -37,7 +37,7 @@
 						           description="Edit the extractor"
 	
 						>
-							<ExtractorForm :extractor="selected" @close="isShowEditSchemaModal = false" />
+							<ExtractorForm :extractor="selected" @close="isShowEditSchemaModal = false" @submitted="handleFormSubmitted" />
 						</BaseModal>
 					</template>
 					<template #right>
@@ -63,6 +63,7 @@ const isShowCreateModal = ref(false);
 const isShowEditSchemaModal = ref(false);
 const selected = ref();
 const extractors = ref([]);
+const toast = useToast();
 
 onMounted(async () => {
 	extractors.value = await new ExtractorService().getExtractors();
@@ -74,8 +75,28 @@ const detailItems = [
 		{
 			label: 'Delete',
 			icon: 'i-heroicons-trash',
-			handler: () => {
-				console.log('Delete');
+			click: () => {
+				toast.add({
+					title: 'Delete Extractor',
+					description: 'Are you sure you want to delete this extractor?',
+					color: "red",
+					icon: 'i-heroicons-trash',
+					actions: [
+						{
+							label: 'Delete',
+							variant: 'solid',
+							color: 'red',
+							onClick: () => {
+								toast.remove();
+								onDeleteExtractor();
+							}
+						}, {
+							label: 'Cancel',
+							variant: 'ghost',
+							onClick: () => toast.remove()
+						}
+					]
+				})
 			}
 		}
 	]
@@ -92,5 +113,28 @@ const handleFormSubmitted = async () => {
 	isLoaded.value = false;
 	extractors.value = await new ExtractorService().getExtractors();
 	isLoaded.value = true;
+}
+
+const onDeleteExtractor = async () => {
+	isLoaded.value = false;
+	await new ExtractorService().deleteExtractor(selected.value.uuid).then(() => {
+		toast.add({
+			title: 'Extractor Deleted',
+			description: 'The extractor has been deleted',
+			color: 'green',
+			icon: 'i-heroicons-check'
+		})
+		selected.value = null;
+	}).catch(() => {
+		toast.add({
+			title: 'Error',
+			description: 'An error occurred while deleting the extractor',
+			color: 'red',
+			icon: 'i-heroicons-x'
+		})
+	}).finally(async () => {
+		extractors.value = await new ExtractorService().getExtractors();
+		isLoaded.value = true;
+	})
 }
 </script>

@@ -5,6 +5,7 @@
 			<NuxtPage />
 		</NuxtLayout>
 		<UModals />
+		<UNotifications />
 	</div>
 </template>
 <script setup>

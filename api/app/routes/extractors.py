@@ -68,7 +68,8 @@ async def show(
         name=extractor.name,
         description=extractor.description,
         prompt=extractor.prompt,
-        schema=extractor.schema
+        schema=extractor.schema,
+        created_at=extractor.created_at
     )
 
 
@@ -92,7 +93,8 @@ async def update(
         name=extractor.name,
         description=extractor.description,
         prompt=extractor.prompt,
-        schema=extractor.schema
+        schema=extractor.schema,
+        created_at=extractor.created_at
     )
 
 

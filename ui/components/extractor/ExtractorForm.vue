@@ -28,6 +28,7 @@
 <script setup>
 import ExtractorService from "~/services/ExtractorService.ts";
 
+const toast = useToast();
 const emit = defineEmits([
 	'close',
 	'submitted'
@@ -87,11 +88,16 @@ async function onSubmit(event) {
 	}
 	
 	if (props.extractor) {
-		emit('close');
+		await new ExtractorService().updateExtractor(props.extractor.uuid, data).then(() => {
+			emit('close');
+			emit('submitted');
+			toast.add({ icon: "i-heroicons-check-circle", title: 'Successfully', description: 'Extractor updated successfully' });
+		});
 	} else {
 		await new ExtractorService().createExtractor(data).then(() => {
 			emit('close');
 			emit('submitted');
+			toast.add({ icon: "i-heroicons-check-circle", title: 'Successfully', description: 'Extractor created successfully' });
 		});
 	}
 }
