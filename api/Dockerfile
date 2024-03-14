@@ -19,8 +19,9 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*
 
 # Install Poetry
-RUN curl -sSL https://install.python-poetry.org | python -
-ENV PATH="$POETRY_HOME/bin:$PATH"
+RUN python -m pip install --no-cache-dir pipx
+ENV PATH="/root/.local/bin:$PATH"
+RUN pipx install poetry
 
 # Pre-Copy
 COPY ./pyproject.toml ./

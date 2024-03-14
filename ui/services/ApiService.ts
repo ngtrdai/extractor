@@ -6,9 +6,9 @@ export default class ApiService {
         return fetch(url, {
             method: method,
             headers: {
-                'Content-Type': 'application/json'
+                'Accept': '*/*'
             },
-            body: JSON.stringify(data),
+            body: data,
             ...params
         })
     }

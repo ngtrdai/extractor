@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from app.routes import extractors, extract
-from starlette.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Extractor API",

@@ -17,10 +17,12 @@
 		</div>
 		<UDivider class="my-5" />
 		<div class="flex flex-1">
-			<p class="text-lg"></p>
+			<p class="text-lg">
+				{{ extractedData }}
+			</p>
 		</div>
 		<UDivider class="my-5" />
-		<ExtractorChat />
+		<ExtractorChat :extractor="extractor" v-model="extractedData" @update:modelValue="handleExtractedData" />
 	</LayoutPanelContent>
 </template>
 <script setup lang="ts">
@@ -34,4 +36,9 @@ const props = defineProps({
 	}
 })
 
+const extractedData = ref(null)
+
+const handleExtractedData = (data) => {
+	console.log(data)
+}
 </script>
