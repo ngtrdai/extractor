@@ -10,6 +10,7 @@ services:
       DB_HOST: ${POSTGRES_HOST}
       DB_PORT: ${POSTGRES_PORT}
       DB_NAME: "pdf_extractor"
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
     ports:
       - "${API_PORT}:8000"
     depends_on:

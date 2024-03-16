@@ -11,7 +11,9 @@ export default class ExtractService {
         let formData = new FormData();
         formData.append('extractor_uuid', 'f5a93011-905d-42fc-8a6a-a98acae1e896');
         formData.append('text', data.text);
-        formData.append('file', data.file);
+        if (data.file) {
+            formData.append('file', data.file);
+        }
         return this._apiService.post('/extract', formData).then((response: any) => response.json());
     }
 }

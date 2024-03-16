@@ -6,6 +6,8 @@ from app.database import get_session
 from app.models.extractor import Extractor
 from app.ultils.parser import parse_file_to_document
 
+from app.extract import Extract
+
 router = APIRouter(
     prefix="/extract",
     tags=["extract"],
@@ -33,6 +35,7 @@ async def extract(
     else:
         _text = "\n".join([document.page_content for document in parse_file_to_document(file.file)])
 
+    extracted = await Extract(_text, extractor).generate()
     return {
-        "text": _text
+        "text": extracted
     }

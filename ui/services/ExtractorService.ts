@@ -16,11 +16,19 @@ export default class ExtractorService {
     }
 
     public async createExtractor(data: any) {
-        return this._apiService.post('/extractors', data)
+        return this._apiService.post('/extractors', JSON.stringify(data), {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
     }
 
     public async updateExtractor(uuid: string, data: any) {
-        return this._apiService.put(`/extractors/${uuid}`, data)
+        return this._apiService.put(`/extractors/${uuid}`, JSON.stringify(data), {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
     }
 
     public async deleteExtractor(uuid: string) {

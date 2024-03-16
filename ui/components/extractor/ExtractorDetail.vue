@@ -26,7 +26,6 @@
 	</LayoutPanelContent>
 </template>
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import type { Extractor } from '~/types';
 import {format, isToday} from "date-fns";
 const props = defineProps({
